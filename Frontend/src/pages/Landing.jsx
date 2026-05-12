@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCurrentAccount } from '@mysten/dapp-kit';
-import { loadAgents } from '../services/agentService';
+import { loadAgents } from '../services/agentservice';
 
 const FEATURES = [
   { icon: '🧠', title: 'Claude AI Brain',      desc: 'Every cycle, Claude reads your portfolio state, analyses market conditions, and decides the optimal DeFi action.' },

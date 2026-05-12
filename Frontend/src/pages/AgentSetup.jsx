@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
-import { PACKAGE_ID, MIST_PER_SUI } from '../constants/contracts';
+import { PACKAGE_ID, MIST_PER_SUI } from '../constants/Contracts';
 import {
   suiClient,
   buildDeployAgentTx, buildCreateVaultTx,
   buildCreatePermissionsTx, buildDepositTx,
-} from '../services/suiService';
-import { initAgentMemory, saveAgent } from '../services/agentService';
+} from '../services/suiservice';
+import { initAgentMemory, saveAgent } from '../services/agentservice';
 import { strategyToCode, STRATEGY_META } from '../agent/brain';
-import StrategyConfig from '../components/StrategyConfig';
+import strategyconfig from '../components/Strategyconfig';
 
 const STEPS = ['Strategy', 'Limits', 'Deploy', 'Fund'];
 

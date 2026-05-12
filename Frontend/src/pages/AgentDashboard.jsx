@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
-import { loadAgents, saveAgent, runCycle } from '../services/agentService';
-import { readMemory } from '../services/walrusService';
-import { getSuiBalance, buildPauseAgentTx, buildResumeAgentTx } from '../services/suiService';
+import { loadAgents, saveAgent, runCycle } from '../services/agentservice';
+import { readMemory } from '../services/walrusservice';
+import { getSuiBalance, buildPauseAgentTx, buildResumeAgentTx } from '../services/suiservice';
 import { updateOnChain } from '../agent/executor';
 import { getStats, formatTime } from '../agent/memory';
 import { STRATEGY_META, codeToStrategy } from '../agent/brain';
-import StatusBadge from '../components/StatusBadge';
-import TradeLog from '../components/TradeLog';
-import PerformanceChart from '../components/PerformanceChart';
+import StatusBadge from '../components/Statusbadge';
+import TradeLog from '../components/Tradelog';
+import PerformanceChart from '../components/Performancechart';
 
 const AUTO_CYCLE_MS = 5 * 60 * 1000;
 
