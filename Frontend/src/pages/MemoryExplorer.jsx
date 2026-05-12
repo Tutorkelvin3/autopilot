@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { readMemory } from '../services/walrusService';
+import { readMemory } from '../services/walrusservice';
 import { getStats, formatTime } from '../agent/memory';
 import { STRATEGY_META, ACTION_META } from '../agent/brain';
-import { WALRUS } from '../constants/tokens';
+import { WALRUS } from '../constants/Tokens';
 
 export default function MemoryExplorer() {
   const { blobId }       = useParams();
