@@ -4,9 +4,9 @@ import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-ki
 import { loadAgents, saveAgent, runCycle } from '../services/agentservice';
 import { readMemory } from '../services/walrusservice';
 import { getSuiBalance, buildPauseAgentTx, buildResumeAgentTx } from '../services/suiservice';
-import { updateOnChain } from '../agent/executor';
-import { getStats, formatTime } from '../agent/memory';
-import { STRATEGY_META, codeToStrategy } from '../agent/brain';
+import { updateOnChain } from '../agent/Executor';
+import { getStats, formatTime } from '../agent/Memory';
+import { STRATEGY_META, codeToStrategy } from '../agent/Brain';
 import StatusBadge from '../components/Statusbadge';
 import TradeLog from '../components/Tradelog';
 import PerformanceChart from '../components/Performancechart';

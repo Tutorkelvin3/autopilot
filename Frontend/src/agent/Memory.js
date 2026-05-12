@@ -1,4 +1,4 @@
-import { readMemory, writeMemory } from '../services/walrusService';
+import { readMemory, writeMemory } from '../services/walrusservice';
 
 export async function loadMemory(blobId) {
   if (!blobId) return null;
