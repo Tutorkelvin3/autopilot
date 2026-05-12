@@ -1,11 +1,10 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Landing from './pages/Landing';
-import AgentSetup from './pages/AgentSetup';
-import AgentDashboard from './pages/AgentDashboard';
-import MemoryExplorer from './pages/MemoryExplorer';
-
+import Navbar from './components/Navbar.jsx';
+import Landing from './pages/Landing.jsx';
+import AgentSetup from './pages/AgentSetup.jsx';
+import AgentDashboard from './pages/AgentDashboard.jsx';
+import MemoryExplorer from './pages/MemoryExplorer.jsx';
 export default function App() {
   return (
     <div className="app">
