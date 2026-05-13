@@ -9,7 +9,7 @@ import {
 } from '../services/suiservice';
 import { initAgentMemory, saveAgent } from '../services/agentservice';
 import { strategyToCode, STRATEGY_META } from '../agent/Brain';
-import strategyconfig from '../components/StrategyConfig';
+import StrategyConfig from '../components/Strategyconfig';
 
 const STEPS = ['Strategy', 'Limits', 'Deploy', 'Fund'];
 
