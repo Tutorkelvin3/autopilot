@@ -1,6 +1,6 @@
 import React from 'react';
-import { ACTION_META } from '../agent/brain';
-import { formatTime } from '../agent/memory';
+import { ACTION_META } from '../agent/Brain';
+import { formatTime } from '../agent/Memory';
 
 export default function TradeLog({ trades = [] }) {
   if (!trades.length) return (

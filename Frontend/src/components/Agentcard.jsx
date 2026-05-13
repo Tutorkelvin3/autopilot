@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import StatusBadge from './StatusBadge';
-import { STRATEGY_META, codeToStrategy } from '../agent/brain';
-import { formatTime } from '../agent/memory';
+import { STRATEGY_META, codeToStrategy } from '../agent/Brain';
+import { formatTime } from '../agent/Memory';
 
 export default function AgentCard({ agent, memory, onSelect, selected }) {
   const sk   = codeToStrategy(agent?.strategy ?? 1);
