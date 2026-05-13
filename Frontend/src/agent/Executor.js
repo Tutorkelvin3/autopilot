@@ -1,4 +1,4 @@
-import { buildUpdateMemoryTx, buildLogExecutionTx } from '../services/suiService';
+import { buildUpdateMemoryTx, buildLogExecutionTx } from '../services/suiservice';
 import { ACTION_CODES } from './brain';
 
 export function updateOnChain({ agentObjectId, capObjectId, newBlobId, sender, signAndExecuteTransaction }) {
