@@ -1,5 +1,5 @@
 import { buildUpdateMemoryTx, buildLogExecutionTx } from '../services/suiservice';
-import { ACTION_CODES } from './brain';
+import { ACTION_CODES } from './Brain';
 
 export function updateOnChain({ agentObjectId, capObjectId, newBlobId, sender, signAndExecuteTransaction }) {
   return new Promise((resolve, reject) => {
