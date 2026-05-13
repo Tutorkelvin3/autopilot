@@ -1,6 +1,6 @@
 import { SuiClient } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
-import { RPC_URL, CLOCK_ID, FN, MIST_PER_SUI } from '../constants/contracts';
+import { RPC_URL, CLOCK_ID, FN, MIST_PER_SUI } from '../constants/Contracts';
 
 export const suiClient = new SuiClient({ url: RPC_URL });
 

@@ -1,5 +1,5 @@
-import { suiClient } from './suiService';
-import { DEEPBOOK_POOLS } from '../constants/tokens';
+import { suiClient } from './suiservice';
+import { DEEPBOOK_POOLS } from '../constants/Tokens';
 
 const mockSuiPrice = () => +(3.42 + (Math.random() - 0.5) * 0.3).toFixed(4);
 

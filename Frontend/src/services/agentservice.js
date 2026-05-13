@@ -1,7 +1,7 @@
-import { writeMemory, readMemory, appendTrade, createInitialMemory } from './walrusService';
-import { getMarketData } from './deepbookService';
-import { getYieldRates }  from './scallopService';
-import { getSuiBalance }  from './suiService';
+import { writeMemory, readMemory, appendTrade, createInitialMemory } from './walrusservice';
+import { getMarketData } from './Deepbookservice';
+import { getYieldRates }  from './scallopservice';
+import { getSuiBalance }  from './suiservice';
 
 // Empty string = use Vite proxy (/api → localhost:3001), avoids CORS entirely
 const BACKEND = '';
