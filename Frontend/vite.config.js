@@ -13,6 +13,9 @@ export default defineConfig({
       },
     },
   },
+  build:{
+    target: "esnext"
+  },
   define: {
     global: 'globalThis',
   },
