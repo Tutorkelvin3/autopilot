@@ -3,10 +3,11 @@ import { useParams, Link } from 'react-router-dom';
 import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
 import { loadAgents, saveAgent, runCycle } from '../services/agentservice';
 import { readMemory } from '../services/walrusservice';
-import { getSuiBalance, buildPauseAgentTx, buildResumeAgentTx } from '../services/suiservice';
+import { getSuiBalance, buildPauseAgentTx, buildResumeAgentTx, buildWithdrawTx } from '../services/suiservice';
 import { updateOnChain } from '../agent/Executor';
 import { getStats, formatTime } from '../agent/Memory';
 import { STRATEGY_META, codeToStrategy } from '../agent/Brain';
+import { MIST_PER_SUI } from '../constants/contracts';
 import StatusBadge from '../components/StatusBadge';
 import TradeLog from '../components/TradeLog';
 import PerformanceChart from '../components/Performancechart';
@@ -14,19 +15,22 @@ import PerformanceChart from '../components/Performancechart';
 const AUTO_CYCLE_MS = 5 * 60 * 1000;
 
 export default function AgentDashboard() {
-  const { agentId }             = useParams();
-  const account                 = useCurrentAccount();
-  const { mutate: sign }        = useSignAndExecuteTransaction();
+  const { agentId }          = useParams();
+  const account              = useCurrentAccount();
+  const { mutate: sign }     = useSignAndExecuteTransaction();
 
-  const [agents,      setAgents]      = useState([]);
-  const [active,      setActive]      = useState(null);
-  const [memory,      setMemory]      = useState(null);
-  const [balance,     setBalance]     = useState(null);
-  const [running,     setRunning]     = useState(false);
-  const [lastResult,  setLastResult]  = useState(null);
-  const [countdown,   setCountdown]   = useState(AUTO_CYCLE_MS);
-  const [loading,     setLoading]     = useState(true);
-  const [tab,         setTab]         = useState('trades');
+  const [agents,       setAgents]       = useState([]);
+  const [active,       setActive]       = useState(null);
+  const [memory,       setMemory]       = useState(null);
+  const [balance,      setBalance]      = useState(null);
+  const [running,      setRunning]      = useState(false);
+  const [lastResult,   setLastResult]   = useState(null);
+  const [countdown,    setCountdown]    = useState(AUTO_CYCLE_MS);
+  const [loading,      setLoading]      = useState(true);
+  const [tab,          setTab]          = useState('trades');
+  const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [withdrawing,    setWithdrawing]    = useState(false);
+  const [withdrawMsg,    setWithdrawMsg]    = useState('');
 
   const sender = account?.address;
 
@@ -120,9 +124,33 @@ export default function AgentDashboard() {
     });
   }
 
+  /* ── Withdraw ────────────────────────────────── */
+  function handleWithdraw() {
+    if (!active?.vaultObjectId || !sender) return;
+    const amount = parseFloat(withdrawAmount);
+    if (!amount || amount <= 0) { setWithdrawMsg('Enter a valid amount'); return; }
+
+    setWithdrawing(true); setWithdrawMsg('');
+    const amtMist = Math.floor(amount * Number(MIST_PER_SUI));
+    const tx = buildWithdrawTx({ vaultId: active.vaultObjectId, amountMist: amtMist, sender });
+
+    sign({ transaction: tx }, {
+      onSuccess: () => {
+        setWithdrawMsg(`✅ Withdrawn ${amount} SUI successfully!`);
+        setWithdrawAmount('');
+        setWithdrawing(false);
+        getSuiBalance(sender).then(setBalance);
+      },
+      onError: (e) => {
+        setWithdrawMsg(`❌ ${e.message}`);
+        setWithdrawing(false);
+      },
+    });
+  }
+
   /* ── Helpers ─────────────────────────────────── */
   const fmt = (s) => {
-    const m = Math.floor(s / 60000);
+    const m   = Math.floor(s / 60000);
     const sec = Math.floor((s % 60000) / 1000);
     return `${m}:${sec.toString().padStart(2, '0')}`;
   };
@@ -187,10 +215,10 @@ export default function AgentDashboard() {
       {/* ── Stats row ───────────────────────────── */}
       <div className="grid-4 mb-24">
         {[
-          { label: 'SUI Balance',  value: balance?.display || '—', sub: 'testnet wallet' },
-          { label: 'Cycles Run',   value: stats?.cyclesRun || 0,   sub: 'auto every 5 min' },
-          { label: 'Trades Done',  value: stats?.tradesExecuted || 0, sub: `${stats?.successRate || 0}% success` },
-          { label: 'Target APY',   value: `${stratMeta.targetAPY}%`, sub: stratMeta.label },
+          { label: 'SUI Balance',  value: balance?.display || '—',       sub: 'testnet wallet'           },
+          { label: 'Cycles Run',   value: stats?.cyclesRun || 0,          sub: 'auto every 5 min'         },
+          { label: 'Trades Done',  value: stats?.tradesExecuted || 0,     sub: `${stats?.successRate || 0}% success` },
+          { label: 'Target APY',   value: `${stratMeta.targetAPY}%`,      sub: stratMeta.label            },
         ].map(s => (
           <div key={s.label} className="card">
             <div className="stat-label">{s.label}</div>
@@ -210,9 +238,46 @@ export default function AgentDashboard() {
         </div>
       )}
 
+      {/* ── Withdraw card ───────────────────────── */}
+      <div className="card mb-24" style={{ borderColor:'rgba(239,68,68,0.3)' }}>
+        <div className="flex-between mb-16">
+          <div>
+            <h3 style={{ fontSize:16 }}>💰 Withdraw from Vault</h3>
+            <p className="text-sm c-muted mt-8">Withdraw your SUI back to your wallet anytime.</p>
+          </div>
+        </div>
+        {withdrawMsg && (
+          <div className={`alert ${withdrawMsg.startsWith('✅') ? 'alert-success' : 'alert-error'} mb-16`}>
+            {withdrawMsg}
+          </div>
+        )}
+        <div style={{ display:'flex', gap:12, alignItems:'center', flexWrap:'wrap' }}>
+          <input
+            className="form-input"
+            type="number"
+            min="0.01"
+            step="0.1"
+            placeholder="Amount in SUI"
+            value={withdrawAmount}
+            onChange={e => setWithdrawAmount(e.target.value)}
+            style={{ maxWidth:200 }}
+          />
+          <button
+            className="btn btn-danger"
+            onClick={handleWithdraw}
+            disabled={withdrawing || !active?.vaultObjectId}
+          >
+            {withdrawing ? <><span className="spinner"/> Withdrawing…</> : '↗ Withdraw SUI'}
+          </button>
+        </div>
+        <p className="text-xs c-muted mt-8">
+          Only the vault owner can withdraw. Funds go directly to your connected wallet.
+        </p>
+      </div>
+
       {/* ── Tabs ────────────────────────────────── */}
       <div className="flex-row mb-16" style={{ borderBottom:'1px solid var(--border)', paddingBottom:0 }}>
-        {[['trades', '📋 Trade Log'], ['chart', '📈 Performance'], ['agents', '🤖 All Agents']].map(([key, label]) => (
+        {[['trades','📋 Trade Log'],['chart','📈 Performance'],['agents','🤖 All Agents']].map(([key, label]) => (
           <button key={key} className="btn btn-ghost btn-sm"
             style={{ borderRadius:0, borderBottom: tab === key ? '2px solid var(--purple)' : '2px solid transparent', color: tab === key ? 'var(--text-1)' : 'var(--text-3)' }}
             onClick={() => setTab(key)}>
