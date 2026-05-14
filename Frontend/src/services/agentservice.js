@@ -8,7 +8,7 @@ const BACKEND = '';
 const res = await fetch(`${BACKEND}/api/agent`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({data}),
+  body: JSON.stringify(data),
 });
 
 /* ── Local storage ──────────────────────────────────────────────────────── */
