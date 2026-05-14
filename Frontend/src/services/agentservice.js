@@ -4,14 +4,25 @@ import { getYieldRates }  from './scallopservice';
 import { getSuiBalance }  from './suiservice';
 
 // Empty string = use Vite proxy (/api → localhost:3001), avoids CORS entirely
+const LS_KEY = 'autopilot_agents';
 const BACKEND = '';
+
 export async function saveAgent(data) {
-const res = await fetch(`${BACKEND}/api/agent`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(data),
-});
-return res.json();
+  const all = loadAgents();
+  const idx = all.findIndex(a => a.agentObjectId === data.agentObjectId);
+  if (idx >= 0) all[idx] = { ...all[idx], ...data };
+  else all.push(data);
+  localStorage.setItem(LS_KEY, JSON.stringify(all));
+  try {
+    const res = await fetch(`${BACKEND}/api/agent`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  } catch(e) {
+    console.error('Backend save failed:', e);
+  }
 }
 /* ── Local storage ──────────────────────────────────────────────────────── */
 
