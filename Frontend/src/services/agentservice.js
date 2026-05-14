@@ -5,7 +5,7 @@ import { getSuiBalance }  from './suiservice';
 
 // Empty string = use Vite proxy (/api → localhost:3001), avoids CORS entirely
 const LS_KEY = 'autopilot_agents';
-const BACKEND = '';
+const BACKEND = import.meta.env.VITE_BACKEND_URL || '';
 
 export async function saveAgent(data) {
   const all = loadAgents();
