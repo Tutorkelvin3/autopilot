@@ -158,8 +158,8 @@ export default function AgentSetup() {
       setStatus('Depositing SUI to vault…');
       const amtMist = Math.floor(depositSui * Number(MIST_PER_SUI));
       sign({ transaction: buildDepositTx({ vaultId, amountMist: amtMist, sender }) }, {
-        onSuccess: () => {
-          saveAgent({ agentObjectId, agentCapId, vaultObjectId: vaultId, walrusBlobId: blobId, agentName: agentName.trim(), strategy, owner: sender, createdAt: new Date().toISOString() });
+        onSuccess: async () => {
+          await saveAgent({ agentObjectId, agentCapId, vaultObjectId: vaultId, walrusBlobId: blobId, agentName: agentName.trim(), strategy, owner: sender, createdAt: new Date().toISOString() });
           setLoading(false);
           navigate(`/dashboard/${agentObjectId}`);
         },
