@@ -4,7 +4,7 @@ import { useCurrentAccount } from '@mysten/dapp-kit';
 import { loadAgents } from '../services/agentservice';
 
 const FEATURES = [
-  { icon: '🧠', title: 'Claude AI Brain',      desc: 'Every cycle, Claude reads your portfolio state, analyses market conditions, and decides the optimal DeFi action.' },
+  { icon: '🧠', title: 'Groq AI Brain',      desc: 'Every cycle, Claude reads your portfolio state, analyses market conditions, and decides the optimal DeFi action.' },
   { icon: '🐋', title: 'Walrus Memory',         desc: 'Full agent memory — trade history, strategy, performance — stored permanently on Walrus decentralised storage.' },
   { icon: '📊', title: 'DeepBook Execution',    desc: "Trades placed on Sui's native CLOB order book for best-price discovery and deep liquidity." },
   { icon: '🌿', title: 'Yield Optimisation',    desc: 'Idle assets automatically routed between Scallop and Navi protocols to maximise APY.' },
@@ -37,7 +37,7 @@ export default function Landing() {
           )}
         </div>
         <div className="tech-pills">
-          {['Sui Testnet','Walrus Storage','DeepBook V3','Scallop Yield','Claude AI','Move Smart Contracts'].map(t => (
+          {['Sui Testnet','Walrus Storage','DeepBook V3','Scallop Yield','Groq AI','Move Smart Contracts'].map(t => (
             <span key={t} className="tech-pill">{t}</span>
           ))}
         </div>
@@ -75,7 +75,7 @@ export default function Landing() {
             ['1.', 'Read strategy + history from ', 'Walrus'],
             ['2.', 'Fetch price data from ',         'DeepBook'],
             ['3.', 'Fetch APY rates from ',           'Scallop / Navi'],
-            ['4.', 'Ask ',                            'Claude AI', ' → TRADE / DEPOSIT_YIELD / REBALANCE / HOLD'],
+            ['4.', 'Ask ',                            'Groq AI', ' → TRADE / DEPOSIT_YIELD / REBALANCE / HOLD'],
             ['5.', 'Execute on ',                     'Sui', ' via PTB'],
             ['6.', 'Write updated memory back to ',   'Walrus'],
             ['7.', 'Update blobId on-chain → repeat every 5 min', ''],
