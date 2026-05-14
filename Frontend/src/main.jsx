@@ -1,3 +1,13 @@
+if (typeof window !== 'undefined') {
+  const originalDefineProperty = Object.defineProperty;
+  Object.defineProperty = function(obj, prop, descriptor) {
+    try {
+      return originalDefineProperty(obj, prop, descriptor);
+    } catch(e) {
+      return obj;
+    }
+  };
+}
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
