@@ -5,7 +5,11 @@ import { getSuiBalance }  from './suiservice';
 
 // Empty string = use Vite proxy (/api → localhost:3001), avoids CORS entirely
 const BACKEND = '';
-const LS_KEY  = 'autopilot_agents_v1';
+const res = await fetch(`${BACKEND}/api/agent`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({data}),
+});
 
 /* ── Local storage ──────────────────────────────────────────────────────── */
 
