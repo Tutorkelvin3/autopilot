@@ -5,21 +5,15 @@ import { getSuiBalance }  from './suiservice';
 
 // Empty string = use Vite proxy (/api → localhost:3001), avoids CORS entirely
 const BACKEND = '';
+export async function saveAgent(data) {
 const res = await fetch(`${BACKEND}/api/agent`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(data),
 });
-
-/* ── Local storage ──────────────────────────────────────────────────────── */
-
-export function saveAgent(data) {
-  const all = loadAgents();
-  const idx = all.findIndex(a => a.agentObjectId === data.agentObjectId);
-  if (idx >= 0) all[idx] = { ...all[idx], ...data };
-  else all.push(data);
-  localStorage.setItem(LS_KEY, JSON.stringify(all));
+return res.json();
 }
+/* ── Local storage ──────────────────────────────────────────────────────── */
 
 export function loadAgents() {
   try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); }
