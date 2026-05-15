@@ -7,7 +7,7 @@ import { getSuiBalance, buildPauseAgentTx, buildResumeAgentTx, buildWithdrawTx }
 import { updateOnChain } from '../agent/Executor';
 import { getStats, formatTime } from '../agent/Memory';
 import { STRATEGY_META, codeToStrategy } from '../agent/Brain';
-import { MIST_PER_SUI } from '../constants/contracts';
+import { MIST_PER_SUI } from '../constants/Contracts';
 import StatusBadge from '../components/StatusBadge';
 import TradeLog from '../components/TradeLog';
 import PerformanceChart from '../components/Performancechart';
