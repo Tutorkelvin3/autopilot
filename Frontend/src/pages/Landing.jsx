@@ -4,7 +4,7 @@ import { useCurrentAccount } from '@mysten/dapp-kit';
 import { loadAgents } from '../services/agentservice';
 
 const FEATURES = [
-  { icon: '🧠', title: 'Groq AI Brain',      desc: 'Every cycle, Claude reads your portfolio state, analyses market conditions, and decides the optimal DeFi action.' },
+  { icon: '🧠', title: 'Groq AI Brain',      desc: 'Every cycle, Groq AI reads your portfolio state, analyses market conditions, and decides the optimal DeFi action.' },
   { icon: '🐋', title: 'Walrus Memory',         desc: 'Full agent memory — trade history, strategy, performance — stored permanently on Walrus decentralised storage.' },
   { icon: '📊', title: 'DeepBook Execution',    desc: "Trades placed on Sui's native CLOB order book for best-price discovery and deep liquidity." },
   { icon: '🌿', title: 'Yield Optimisation',    desc: 'Idle assets automatically routed between Scallop and Navi protocols to maximise APY.' },
